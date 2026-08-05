@@ -10,8 +10,13 @@ connactionDB()
 const app = express()
 const PORT = process.env.PORT
 
+
+// Api End Points
 app.use(express.json())
 app.use("/api/users", require("./Routes/User"))
+app.use("/api/visitors", require("./Routes/Visitors"))
+
+
 app.use(errorHandler)
 
 app.listen(PORT, () => {
