@@ -1,0 +1,21 @@
+{
+  "name": "vps",
+  "version": "1.0.0",
+  "description": "Assesment",
+  "license": "MIT",
+  "author": "Partheepan",
+  "type": "commonjs",
+  "main": "Setup.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node Setup.js",
+    "dev": "nodemon Setup.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
