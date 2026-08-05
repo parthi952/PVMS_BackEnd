@@ -1,40 +1,40 @@
-const constants = require("./Constants")
+const constants = require("./Constants");
 
-const errorHandler = (err,req,res,next) => {
-    
-    const statusCode = res.statusCode ? res.statusCode : 500
-    switch(statusCode) {
+const errorHandler = (err, req, res, next) => {
+    const statusCode = res.statusCode ? res.statusCode : 500;
+    switch (statusCode) {
         case constants.ValidationError:
             res.json({
-                title : "Validation Error",
-                message : err.message,
+                title: "Validation Error",
+                message: err.message,
                 stackTrace: err.stack
-            })
-            break
-        case constants.Unautherized:
+            });
+            break;
+        case constants.Unauthorized:
             res.json({
-                title : "Unauthorized",
-                message : err.message,
+                title: "Unauthorized",
+                message: err.message,
                 stackTrace: err.stack
-            })
-            break
+            });
+            break;
         case constants.NotFound:
             res.json({
-                title : "Not Found",
-                message : err.message,
+                title: "Not Found",
+                message: err.message,
                 stackTrace: err.stack
-            })
-            break
+            });
+            break;
         case constants.InternalServerError:
             res.json({
-                title : "Internal Server Error",
-                message : err.message,
+                title: "Internal Server Error",
+                message: err.message,
                 stackTrace: err.stack
-            })
-            break
+            });
+            break;
         default:
-            console.log("No Error")
-            break
+            console.log("No Error handled specifically by middleware:", err);
+            break;
     }
-}
-module.exports = errorHandler
+};
+
+module.exports = errorHandler;
