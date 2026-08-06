@@ -9,7 +9,7 @@ connactionDB()
 const app = express()
 const PORT = process.env.PORT || 5000
 
-// CORS Middleware to allow cross-origin requests from frontend (localhost:5173)
+
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
@@ -22,7 +22,6 @@ app.use((req, res, next) => {
 
 app.use(express.json())
 
-// Api End Points
 app.use("/api/users", require("./Routes/User"))
 app.use("/api/visitors", require("./Routes/Visitors"))
 app.use("/api/login", require("./Routes/Login"))
