@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../Models/UserDB");
 
-
 // Get All Users
 const GetUserData = asyncHandler(async (req, res) => {
     const users = await User.find();
@@ -18,6 +17,7 @@ const IdGenarator = async (role) => {
             return id;
         }
     }
+    return `${prefix}${Date.now().toString().slice(-4)}`;
 };
 
 // New Emp Create
@@ -25,19 +25,28 @@ const AddUser = asyncHandler(async (req, res) => {
     try {
         const { name, email, password, role, employeeId } = req.body;
 
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: "Please provide name, email, and password" });
+        }
+
+        const existingUser = await User.findOne({ email: email.toLowerCase() });
+        if (existingUser) {
+            return res.status(400).json({ message: "User with this email already exists" });
+        }
+
         const generatedId = employeeId || await IdGenarator(role);
 
         const user = await User.create({
             name,
-            email,
+            email: email.toLowerCase(),
             password,
-            role,
+            role: role || "receptionist",
             employeeId: generatedId
         });
         res.status(201).json(user);
     } catch (error) {
         console.error("Error creating user:", error);
-        res.status(500).json({ message: error.message || "Failed to create user" });
+        res.status(400).json({ message: error.message || "Failed to create user" });
     }
 });
 

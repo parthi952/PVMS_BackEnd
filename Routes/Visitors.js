@@ -8,16 +8,17 @@ const {
     UpdateVisitor,
     DeleteVisitor
 } = require("../Controller/VisitorController");
+const { protect, authorize } = require("../Middleware/AuthMiddleware");
 
 router.route("/")
-    .get(GetVisitorData)
-    .post(AddVisitor);
+    .get(protect, GetVisitorData)
+    .post(protect, authorize("admin", "receptionist", "employee"), AddVisitor);
 
 router.route("/:id")
-    .get(GetVisitorById)
-    .put(UpdateVisitor)
-    .delete(DeleteVisitor);
+    .get(protect, GetVisitorById)
+    .put(protect, authorize("admin", "receptionist"), UpdateVisitor)
+    .delete(protect, authorize("admin"), DeleteVisitor);
 
-router.patch("/:id/status", UpdateVisitorStatus);
+router.patch("/:id/status", protect, authorize("admin", "receptionist", "employee"), UpdateVisitorStatus);
 
 module.exports = router;

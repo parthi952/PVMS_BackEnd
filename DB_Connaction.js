@@ -1,16 +1,13 @@
 const mongoose = require("mongoose");
 
-const connactionDB  = async () => {
-try {
+const connactionDB = async () => {
+    try {
+        const connaction = await mongoose.connect(process.env.MONGODB_URI);
+        console.log(`Database Connected: ${connaction.connection.host}`);
+    } catch (err) {
+        console.error("MongoDB Connection Error:", err.message);
+        console.error("Please check your MongoDB Atlas IP Whitelist (0.0.0.0/0) or Internet connection.");
+    }
+};
 
-const connaction = await mongoose.connect(process.env.MONGODB_URI)
-console.log(`Database Connected ${connaction.connection.host}`)
-
-}catch(err){
-    console.log(err)
-    process.exit(1)
-}
-    
-}
-
-module.exports ={ connactionDB};
+module.exports = { connactionDB };

@@ -12,6 +12,10 @@ const activitySchema = new mongoose.Schema(
       ref: "User",
       required: [true, "PerformedBy User ID is required"]
     },
+    performedByName: {
+      type: String,
+      trim: true
+    },
     role: {
       type: String,
       enum: ["admin", "receptionist", "employee"],
