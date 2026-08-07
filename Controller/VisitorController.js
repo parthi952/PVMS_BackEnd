@@ -44,6 +44,8 @@ const GetVisitorData = asyncHandler(async (req, res) => {
 
     if (employeeId) {
         filter.employeeId = employeeId;
+    } else if (req.user && req.user.role === "employee" && req.user.employeeId) {
+        filter.employeeId = req.user.employeeId;
     }
     if (search) {
         filter.$or = [
