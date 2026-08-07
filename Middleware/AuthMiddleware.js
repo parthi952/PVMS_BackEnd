@@ -12,10 +12,15 @@ const protect = asyncHandler(async (req, res, next) => {
       const decoded = jwt.verify(token, secret);
 
       if (decoded.id) {
-        req.user = await User.findById(decoded.id).select("-password");
-      }
-      if (!req.user && decoded.id) {
-        req.user = await User.findOne({ employeeId: decoded.id }).select("-password");
+        const isObjectId = typeof decoded.id === "string" && decoded.id.length === 24 && /^[0-9a-fA-F]{24}$/.test(decoded.id);
+        if (isObjectId) {
+          req.user = await User.findById(decoded.id).select("-password");
+        }
+        if (!req.user) {
+          req.user = await User.findOne({
+            $or: [{ employeeId: decoded.id }, { email: decoded.id }]
+          }).select("-password");
+        }
       }
     } catch (error) {
       console.warn("JWT verification notice:", error.message);
