@@ -22,7 +22,7 @@ const protect = asyncHandler(async (req, res, next) => {
     }
   }
 
-  // Fallback: Read user session headers (x-user-id / x-user-name / x-user-role)
+  // Session header fallback
   if (!req.user) {
     const headerUserId = req.headers["x-user-id"] || req.body.performedBy;
     const headerUserName = req.headers["x-user-name"] || req.body.performedByName;
@@ -48,7 +48,7 @@ const protect = asyncHandler(async (req, res, next) => {
     }
   }
 
-  // Default context if unauthenticated
+  // Guest default fallback
   if (!req.user) {
     req.user = {
       _id: "66b245a9f1b2c81234567890",

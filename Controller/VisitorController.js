@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Visitor = require("../Models/VisitorData");
 const User = require("../Models/UserDB");
 
-// Helper to check if two dates fall on the same calendar day
+// Check if two dates fall on the same calendar day
 const isSameDay = (d1, d2) => {
     return (
         d1.getFullYear() === d2.getFullYear() &&
@@ -12,7 +12,7 @@ const isSameDay = (d1, d2) => {
     );
 };
 
-// Helper to get valid User ObjectId for activity tracking
+// Resolve valid User ObjectId for tracking
 const getValidUserId = async (performedBy) => {
     if (!performedBy) return null;
     if (mongoose.Types.ObjectId.isValid(performedBy)) {
@@ -23,18 +23,17 @@ const getValidUserId = async (performedBy) => {
     });
     if (user) return user._id;
 
-    // Fallback to any admin/user in DB
+    // Fallback to first available DB user
     const anyUser = await User.findOne();
     return anyUser ? anyUser._id : null;
 };
 
-// @desc    Get all visitors (with optional filtering by status, employeeId, activeOnly, or search query)
-// @route   GET /api/visitors
+// Fetch visitor list with optional status/search filters
 const GetVisitorData = asyncHandler(async (req, res) => {
     const { status, employeeId, search, activeOnly, excludeCancelled } = req.query;
     const filter = {};
 
-    // Rule 10: Cancelled visits should not appear in active visitor lists
+    // Exclude cancelled visits from active lists
     if (activeOnly === "true") {
         filter.status = { $in: ["Pending", "Approved", "CheckedIn"] };
     } else if (status) {
