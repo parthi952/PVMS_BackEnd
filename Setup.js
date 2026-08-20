@@ -25,6 +25,8 @@ app.use(express.json())
 app.use("/api/users", require("./Routes/User"))
 app.use("/api/visitors", require("./Routes/Visitors"))
 app.use("/api/login", require("./Routes/Login"))
+app.use("/api/settings", require("./Routes/Settings"))
+app.use("/api/verification", require("./Routes/Verification"))
 
 app.use(errorHandler)
 

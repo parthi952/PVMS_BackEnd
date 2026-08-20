@@ -29,9 +29,10 @@ const protect = asyncHandler(async (req, res, next) => {
 
   // Session header fallback
   if (!req.user) {
-    const headerUserId = req.headers["x-user-id"] || req.body.performedBy;
-    const headerUserName = req.headers["x-user-name"] || req.body.performedByName;
-    const headerUserRole = req.headers["x-user-role"] || req.body.role;
+    const body = req.body || {};
+    const headerUserId = req.headers["x-user-id"] || body.performedBy;
+    const headerUserName = req.headers["x-user-name"] || body.performedByName;
+    const headerUserRole = req.headers["x-user-role"] || body.role;
 
     if (headerUserId) {
       req.user = await User.findOne({
@@ -53,12 +54,12 @@ const protect = asyncHandler(async (req, res, next) => {
     }
   }
 
-  // Guest default fallback
+  // Guest default fallback for unauthenticated registration requests
   if (!req.user) {
     req.user = {
       _id: "66b245a9f1b2c81234567890",
-      name: "Ravi",
-      email: "ravi@gmail.com",
+      name: "Guest Visitor",
+      email: "guest@vpms.com",
       role: "receptionist",
       employeeId: "receptionist1"
     };

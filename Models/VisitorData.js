@@ -4,7 +4,7 @@ const activitySchema = new mongoose.Schema(
   {
     action: {
       type: String,
-      enum: ["Created", "Approved", "Rejected", "CheckedIn", "CheckedOut", "Cancelled"],
+      enum: ["Created", "Approved", "Rejected", "CheckedIn", "CheckedOut", "Cancelled", "Arrived", "NotArrived"],
       required: [true, "Action is required"]
     },
     performedBy: {
@@ -60,6 +60,22 @@ const visitorSchema = new mongoose.Schema(
       required: [true, "Enter Host Employee ID"],
       trim: true
     },
+    assignedEmployeeName: {
+      type: String,
+      trim: true
+    },
+    meetingDuration: {
+      type: Number,
+      default: 30
+    },
+    nextVisitDate: {
+      type: Date
+    },
+    arrivalStatus: {
+      type: String,
+      enum: ["NotConfirmed", "Arrived", "NotArrived"],
+      default: "NotConfirmed"
+    },
     visitDate: {
       type: Date,
       required: [true, "Enter Visit Date"],
@@ -77,7 +93,7 @@ const visitorSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "Approved", "Rejected", "CheckedIn", "CheckedOut", "Cancelled"],
+      enum: ["Pending", "Approved", "Rejected", "CheckedIn", "CheckedOut", "Cancelled", "Arrived", "NotArrived"],
       default: "Pending"
     },
     remarks: {
