@@ -392,8 +392,7 @@ const ConfirmArrival = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Employee Schedule Next Visiting Date
-// @route   PATCH /api/visitors/:id/next-visit
+
 const UpdateNextVisitDate = asyncHandler(async (req, res) => {
   const { nextVisitDate, remarks, performedBy, role } = req.body;
 
@@ -433,7 +432,7 @@ const UpdateNextVisitDate = asyncHandler(async (req, res) => {
 
   const updatedVisitor = await visitor.save();
 
-  // Send Email Notification & Fresh Visitor Pass (with QR Code and PDF attachment) for the scheduled next visit date
+
   if (updatedVisitor.email) {
     sendNextVisitDateEmail(updatedVisitor, targetNextDate);
     sendVisitorPassEmail(
@@ -446,8 +445,7 @@ const UpdateNextVisitDate = asyncHandler(async (req, res) => {
   res.status(200).json(updatedVisitor);
 });
 
-// @desc    Update visitor status
-// @route   PATCH /api/visitors/:id/status
+
 const UpdateVisitorStatus = asyncHandler(async (req, res) => {
   const { status, remarks, performedBy, role } = req.body;
 
@@ -509,8 +507,7 @@ const UpdateVisitorStatus = asyncHandler(async (req, res) => {
   res.status(200).json(updatedVisitor);
 });
 
-// @desc    Update visitor general fields
-// @route   PUT /api/visitors/:id
+
 const UpdateVisitor = asyncHandler(async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(404).json({ message: "Visitor not found" });

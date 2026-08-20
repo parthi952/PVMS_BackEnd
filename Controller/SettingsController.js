@@ -1,8 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Settings = require("../Models/Settings");
 
-// @desc    Get global settings (meeting duration)
-// @route   GET /api/settings
 const GetSettings = asyncHandler(async (req, res) => {
   let settings = await Settings.findOne();
   if (!settings) {
@@ -11,8 +9,7 @@ const GetSettings = asyncHandler(async (req, res) => {
   res.status(200).json(settings);
 });
 
-// @desc    Update global settings
-// @route   PUT /api/settings
+
 const UpdateSettings = asyncHandler(async (req, res) => {
   const { meetingDuration } = req.body;
 

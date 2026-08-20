@@ -1,13 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../Models/UserDB");
 
-// Fetch all registered users
+
 const GetUserData = asyncHandler(async (req, res) => {
     const users = await User.find();
     res.status(200).json(users);
 });
 
-// Generate next available employee ID
+
 const IdGenarator = async (role) => {
     const prefix = role || "employee";
     for (let i = 1; i <= 1000; i++) {
@@ -20,7 +20,7 @@ const IdGenarator = async (role) => {
     return `${prefix}${Date.now().toString().slice(-4)}`;
 };
 
-// Create new user account
+
 const AddUser = asyncHandler(async (req, res) => {
     try {
         const { name, email, password, role, employeeId } = req.body;

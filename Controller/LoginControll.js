@@ -30,7 +30,6 @@ const login = asyncHandler(async (req, res) => {
     const normalizedEmail = String(email).toLowerCase().trim();
     const cleanPassword = String(password).trim();
 
-    // Case-insensitive email lookup
     const user = await User.findOne({
         $or: [
             { email: normalizedEmail },
